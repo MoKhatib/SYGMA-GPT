@@ -11,9 +11,15 @@ from db_actions.create_database import create_database
 from db_actions.link_database import add_relation_property
 
 load_dotenv()
-app = FastAPI()
 
-# DELETE PAGE
+# ✅ Main FastAPI app instance with documentation enabled
+app = FastAPI(
+    title="SYGMA GPT",
+    description="An AI-powered Notion API assistant for full CRUD operations on pages, blocks, and databases.",
+    version="1.0.0"
+)
+
+# === DELETE PAGE ===
 class PageDeleteRequest(BaseModel):
     page_id: str
 
@@ -21,7 +27,7 @@ class PageDeleteRequest(BaseModel):
 async def delete_page_endpoint(req: PageDeleteRequest):
     return await delete_page(req.page_id)
 
-# CREATE BLOCK
+# === CREATE BLOCK ===
 class BlockCreateRequest(BaseModel):
     parent_id: str
     block_type: str
@@ -31,7 +37,7 @@ class BlockCreateRequest(BaseModel):
 async def create_block_endpoint(req: BlockCreateRequest):
     return await create_block(req.parent_id, req.block_type, req.text)
 
-# CONVERT BLOCK
+# === CONVERT BLOCK ===
 class BlockConvertRequest(BaseModel):
     block_id: str
     new_type: str
@@ -40,7 +46,7 @@ class BlockConvertRequest(BaseModel):
 async def convert_block_endpoint(req: BlockConvertRequest):
     return await convert_block(req.block_id, req.new_type)
 
-# CREATE DATABASE
+# === CREATE DATABASE ===
 class DatabaseCreateRequest(BaseModel):
     parent_page_id: str
     title: str
@@ -50,7 +56,7 @@ class DatabaseCreateRequest(BaseModel):
 async def create_database_endpoint(req: DatabaseCreateRequest):
     return await create_database(req.parent_page_id, req.title, req.properties)
 
-# LINK DATABASE
+# === LINK DATABASES ===
 class DatabaseLinkRequest(BaseModel):
     database_id: str
     related_database_id: str
