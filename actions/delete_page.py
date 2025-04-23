@@ -1,0 +1,18 @@
+import os
+import httpx
+from dotenv import load_dotenv
+
+load_dotenv()
+
+NOTION_API_KEY = os.getenv("NOTION_API_KEY")
+NOTION_VERSION = os.getenv("NOTION_VERSION")
+HEADERS = {
+    "Authorization": f"Bearer {NOTION_API_KEY}",
+    "Notion-Version": NOTION_VERSION
+}
+
+async def delete_page(page_id: str):
+    async with httpx.AsyncClient() as client:
+        url = f"https://api.notion.com/v1/pages/{page_id}"
+        res = await client.delete(url, headers=HEADERS)
+        return res.status_code, res.json() if res.content else {"message": "Deleted"}
