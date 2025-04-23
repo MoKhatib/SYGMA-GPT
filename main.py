@@ -4,41 +4,58 @@ from dotenv import load_dotenv
 import os
 import httpx
 
-from actions.create_page import create_page_if_unique
-from actions.update_page import update_page_if_changed  # NEW IMPORT
+from actions.delete_page import delete_page
+from actions.create_block import create_block
+from actions.convert_block import convert_block
+from db_actions.create_database import create_database
+from db_actions.link_database import add_relation_property
 
 load_dotenv()
-
 app = FastAPI()
 
-NOTION_API_KEY = os.getenv("NOTION_API_KEY")
-NOTION_VERSION = os.getenv("NOTION_VERSION")
-HEADERS = {
-    "Authorization": f"Bearer {NOTION_API_KEY}",
-    "Notion-Version": NOTION_VERSION,
-    "Content-Type": "application/json"
-}
-
-@app.get("/notion/search")
-async def search_notion():
-    async with httpx.AsyncClient() as client:
-        res = await client.post("https://api.notion.com/v1/search", headers=HEADERS, json={})
-        return res.json()
-
-# Create Page
-class PageCreateRequest(BaseModel):
-    title: str
-    parent_id: str
-
-@app.post("/notion/create_page")
-async def create_page(req: PageCreateRequest):
-    return await create_page_if_unique(req.title, req.parent_id)
-
-# Update Page
-class PageUpdateRequest(BaseModel):
+# DELETE PAGE
+class PageDeleteRequest(BaseModel):
     page_id: str
-    new_title: str
 
-@app.patch("/notion/update_page")
-async def update_page(req: PageUpdateRequest):
-    return await update_page_if_changed(req.page_id, req.new_title)
+@app.delete("/notion/delete_page")
+async def delete_page_endpoint(req: PageDeleteRequest):
+    return await delete_page(req.page_id)
+
+# CREATE BLOCK
+class BlockCreateRequest(BaseModel):
+    parent_id: str
+    block_type: str
+    text: str
+
+@app.post("/notion/create_block")
+async def create_block_endpoint(req: BlockCreateRequest):
+    return await create_block(req.parent_id, req.block_type, req.text)
+
+# CONVERT BLOCK
+class BlockConvertRequest(BaseModel):
+    block_id: str
+    new_type: str
+
+@app.patch("/notion/convert_block")
+async def convert_block_endpoint(req: BlockConvertRequest):
+    return await convert_block(req.block_id, req.new_type)
+
+# CREATE DATABASE
+class DatabaseCreateRequest(BaseModel):
+    parent_page_id: str
+    title: str
+    properties: dict
+
+@app.post("/notion/create_database")
+async def create_database_endpoint(req: DatabaseCreateRequest):
+    return await create_database(req.parent_page_id, req.title, req.properties)
+
+# LINK DATABASE
+class DatabaseLinkRequest(BaseModel):
+    database_id: str
+    related_database_id: str
+    property_name: str = "Relation"
+
+@app.patch("/notion/link_database")
+async def link_database_endpoint(req: DatabaseLinkRequest):
+    return await add_relation_property(req.database_id, req.related_database_id, req.property_name)
