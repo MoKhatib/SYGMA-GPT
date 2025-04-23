@@ -1,0 +1,212 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SYGMA GPT",
+    "version": "1.0.0",
+    "description": "An AI-powered Notion API assistant for full CRUD operations on pages, blocks, and databases."
+  },
+  "servers": [
+    {
+      "url": "https://sygma-gpt.onrender.com"
+    }
+  ],
+  "paths": {
+    "/notion/delete_page": {
+      "delete": {
+        "summary": "Delete Page Endpoint",
+        "operationId": "deletePage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "page_id": { "type": "string" }
+                },
+                "required": ["page_id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/create_block": {
+      "post": {
+        "summary": "Create Block Endpoint",
+        "operationId": "createBlock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parent_id": { "type": "string" },
+                  "block_type": { "type": "string" },
+                  "text": { "type": "string" }
+                },
+                "required": ["parent_id", "block_type", "text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/convert_block": {
+      "patch": {
+        "summary": "Convert Block Endpoint",
+        "operationId": "convertBlock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "block_id": { "type": "string" },
+                  "new_type": { "type": "string" }
+                },
+                "required": ["block_id", "new_type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/update_block": {
+      "patch": {
+        "summary": "Update Block Endpoint",
+        "operationId": "updateBlock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "block_id": { "type": "string" },
+                  "text": { "type": "string" }
+                },
+                "required": ["block_id", "text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/create_database": {
+      "post": {
+        "summary": "Create Database Endpoint",
+        "operationId": "createDatabase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parent_page_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "properties": { "type": "object" }
+                },
+                "required": ["parent_page_id", "title", "properties"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/link_database": {
+      "patch": {
+        "summary": "Link Database Endpoint",
+        "operationId": "linkDatabase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "database_id": { "type": "string" },
+                  "related_database_id": { "type": "string" },
+                  "property_name": { "type": "string", "default": "Relation" }
+                },
+                "required": ["database_id", "related_database_id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/get_database": {
+      "get": {
+        "summary": "Get Database Endpoint",
+        "operationId": "getDatabase",
+        "parameters": [
+          {
+            "name": "database_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/export_database": {
+      "get": {
+        "summary": "Export Database To Csv Endpoint",
+        "operationId": "exportDatabaseToCsv",
+        "parameters": [
+          {
+            "name": "database_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    },
+    "/notion/calendar_from_tasks": {
+      "get": {
+        "summary": "Calendar From Tasks Endpoint",
+        "operationId": "calendarFromTasks",
+        "parameters": [
+          {
+            "name": "database_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      }
+    }
+  }
+}

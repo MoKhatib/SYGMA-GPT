@@ -11,14 +11,8 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-async def update_page(page_id: str, new_title: str):
-    payload = {
-        "properties": {
-            "title": {
-                "title": [{"text": {"content": new_title}}]
-            }
-        }
-    }
+async def update_database(database_id: str, properties: dict):
+    payload = {"properties": properties}
     async with httpx.AsyncClient() as client:
-        res = await client.patch(f"https://api.notion.com/v1/pages/{page_id}", headers=HEADERS, json=payload)
+        res = await client.patch(f"https://api.notion.com/v1/databases/{database_id}", headers=HEADERS, json=payload)
         return res.json()

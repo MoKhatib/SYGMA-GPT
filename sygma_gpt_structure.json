@@ -1,0 +1,78 @@
+{
+    "project_name": "SYGMA GPT",
+    "description": "An AI-powered Notion API assistant for full CRUD operations on pages, blocks, and databases.",
+    "version": "1.0.0",
+    "deployment_status": "Live",
+    "deployment_url": "https://sygma-gpt.onrender.com/docs",
+    "last_updated": "2025-04-23T16:23:30.866908",
+    "features": {
+        "pages": [
+            "Create smart pages with semantic deduplication",
+            "Delete pages by ID",
+            "Update page titles based on semantic changes",
+            "Calendar generation from tasks"
+        ],
+        "blocks": [
+            "Create various Notion block types (paragraph, heading, to-do, toggle, etc.)",
+            "Convert block types",
+            "Update block content"
+        ],
+        "databases": [
+            "Create Notion databases with properties",
+            "Link databases using relation properties",
+            "Query databases",
+            "Export databases to CSV format"
+        ]
+    },
+    "endpoints": [
+        "/notion/delete_page",
+        "/notion/create_block",
+        "/notion/convert_block",
+        "/notion/update_block",
+        "/notion/create_database",
+        "/notion/link_database",
+        "/notion/get_database",
+        "/notion/export_database",
+        "/notion/calendar_from_tasks"
+    ],
+    "pillars": [
+        "Notion API integration",
+        "FastAPI framework",
+        "Autonomous action execution via structured prompts",
+        "Modular architecture for extendability"
+    ],
+    "resources": {
+        "source_code": "https://github.com/MoKhatib/SYGMA-GPT",
+        "hosted_docs": "https://sygma-gpt.onrender.com/docs",
+        "frameworks": [
+            "FastAPI",
+            "Uvicorn",
+            "Pydantic",
+            "httpx",
+            "python-dotenv"
+        ]
+    },
+    "credentials_required": [
+        ".env file with NOTION_TOKEN and database/page IDs",
+        "GitHub for source management",
+        "Render for deployment"
+    ],
+    "limitations": [
+        "No authentication or multi-user isolation yet",
+        "Limited block types supported for conversion",
+        "No built-in error recovery for Notion API failures",
+        "No persistent state or storage"
+    ],
+    "potential_expansions": [
+        "Add authentication and multi-user sessions",
+        "Introduce background jobs (e.g., Celery)",
+        "Support for more complex Notion views and filters",
+        "Real-time updates via webhooks"
+    ],
+    "strengths": [
+        "Clear modular codebase",
+        "Live deployed API with Swagger UI",
+        "Comprehensive Notion CRUD coverage",
+        "Easily integratable into other systems"
+    ]
+}
