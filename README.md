@@ -27,5 +27,5 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/SYGMA-GPT.git
+   git clone https://github.com/MoKhatib/SYGMA-GPT.git
    cd SYGMA-GPT
